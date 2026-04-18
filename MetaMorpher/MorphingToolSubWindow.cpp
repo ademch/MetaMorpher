@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "MorphingToolSubWindow.h"
-#include <gl/glut.h>
 #include "GLSL_Pipeline.h"
 #include "../../!!adGUI/glfont.h"
 #include "../../!!adExtensions/extensions.h"
@@ -26,47 +25,6 @@ void DoubleClickTimer(int value) {
 }
 
 
-Vec3 CatmullRom(Vec3 aptCP0, Vec3 aptCP1, Vec3 aptCP2, Vec3 aptCP3, float t)
-{
-	Vec3 ptNew =         (((-t*(t - 1.0f)*(t - 1.0f)) / 2.0f)       * aptCP0);
-		 ptNew = ptNew + ((( 3.0f * t*t*t - 5.0f * t*t + 2) / 2.0f) * aptCP1);
-		 ptNew = ptNew + (((-3.0f * t*t*t + 4.0f * t*t + t) / 2.0f) * aptCP2);
-		 ptNew = ptNew + (((t*t*(t - 1.0f)) / 2.0f)                 * aptCP3);
-
-	return ptNew;
-}
-
-void CatmullSubdivide(std::vector<Vec2>& list, std::vector<Vec2>& listOut)
-{
-	if (list.size() < 1) return;
-
-	if (list.size() == 1) {
-		listOut.push_back(list[0]);
-		return;
-	}
-
-	Vec3 pt0, pt1, pt2, pt3;
-	int i0, i1, i2, i3;
-	for (int i=0; i < int(list.size())-1; i++)
-	{
-		i0 = max(i-1,0);
-		i1 = i;
-		i2 = i+1;
-		i3 = min(i+2, int(list.size())-1);
-
-		pt0 = Vecc3(list[i0]);
-		pt1 = Vecc3(list[i1]);
-		pt2 = Vecc3(list[i2]);
-		pt3 = Vecc3(list[i3]);
-
-		for (int j = 0; j <= 3; j++)
-		{
-			Vec3 pt = CatmullRom(pt0, pt1, pt2, pt3, j/4.0f);
-			listOut.push_back(Vecc2(pt.X, pt.Y));
-		}
-	}
-	listOut.push_back(Vecc2(pt3.X, pt3.Y));
-}
 
 MorphingToolSubWindow::MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight) :
 	                   OpenGLSubWindow(iBottomLeftX, iBottomLeftY, iWidth, iHeight)

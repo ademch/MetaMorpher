@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ParamsSubWindow.h"
-#include <gl/glut.h>
 #include "../../!!adGlobals/adOpenGLUtilities.h"
 #include "../../!!adGUI/fps.h"
 #include "GLSL_Pipeline.h"

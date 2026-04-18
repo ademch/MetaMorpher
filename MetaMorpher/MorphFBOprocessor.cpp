@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "MorphFBOprocessor.h"
-#include <gl/glut.h>
 #include "GLSL_Pipeline.h"
 #include "../../!!adExtensions/extensions.h"
 #include "../../!!adGlobals/TextureDescriptor.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 //#include "resource.h"
-#include <gl/glut.h>
+#include "../../!!adGlobals/glut/glut.h"
 #include "../../!!adGUI/glfont.h"
 #include "../../!!adGUI/SubWindow.h"
 #include <vector>
