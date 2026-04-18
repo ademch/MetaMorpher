@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{c599522c-713d-417a-9e93-2be7a2223d89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Main">
+      <UniqueIdentifier>{2933629c-310e-40a0-bb1e-58ad47e5095c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shaders">
+      <UniqueIdentifier>{5b137499-2824-47f9-a837-539bd1a1e0cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{1734d9a1-e5ae-4703-ab13-193d5484d8b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{13e0e9dc-ddb5-497a-a517-03c2dbbcb23a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{93ca5ab2-9e35-444b-8fba-5fc1ea1e7b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ShaderSources">
+      <UniqueIdentifier>{903ddf3e-f6fd-4d2f-b086-b06fa5c85ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubWindows">
+      <UniqueIdentifier>{e047a639-2f37-4a98-808f-b597e4ac8a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubWindows">
+      <UniqueIdentifier>{2de4b2f5-f75f-4f28-aaa3-f8a2c9be837f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{112e3430-b6ad-4939-a82f-6aa628bf76bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{ee2e3c98-e1b3-4c95-9fda-64b4d9065fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\PNG">
+      <UniqueIdentifier>{0c117d6e-f846-400e-a241-2477d065645f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\JPG">
+      <UniqueIdentifier>{d233bf26-d935-4414-9d4c-12792ed8f6c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\JPG">
+      <UniqueIdentifier>{8cb120a0-1d1d-4981-991b-59ed0c97a47d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\WEBP">
+      <UniqueIdentifier>{b3f8b0f9-6e46-403d-93cb-d75da18e3fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\WebP">
+      <UniqueIdentifier>{070b3435-9fc3-416a-8a49-6dc95511f457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\PNG">
+      <UniqueIdentifier>{8a9d03ba-8283-4352-acf0-a36f7aad0042}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adExtensions\extensions.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSL_Pipeline.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adExtensions\read_shader_file.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adExtensions\Shaders.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\button.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\Slider.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\SubWindow.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\glfont.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\fps.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGlobals\TextureDescriptor.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamsSubWindow.h">
+      <Filter>Header Files\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGlobals\vector_math.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGlobals\adOpenGLUtilities.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\label.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\ComboBox.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGlobals\bmpHandler.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="MorphingToolSubWindow.h">
+      <Filter>Header Files\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\Arrow.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MorphFBOprocessor.h">
+      <Filter>Header Files\SubWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGUI\OnOffFlipSwitch.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGlobals\JPG\JPEG_library.h">
+      <Filter>Header Files\Utilities\JPG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\!!adGlobals\PNG\lodepng.h">
+      <Filter>Header Files\Utilities\PNG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PS_SDK\libwebp-1.2.2\src\webp\webp_loader.h">
+      <Filter>Header Files\Utilities\WebP</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adExtensions\extensions.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adExtensions\read_shader_file.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adExtensions\Shaders.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSL_Pipeline.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\button.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\glfont.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\OnOffFlipSwitch.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\SubWindow.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\fps.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ParamsSubWindow.cpp">
+      <Filter>Source Files\SubWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\adOpenGLUtilities.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\trackball.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\vector_math.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\wdir.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\label.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\ComboBox.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\bmpHandler.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\PNG\lodepng.cpp">
+      <Filter>Source Files\Utilities\PNG</Filter>
+    </ClCompile>
+    <ClCompile Include="MorphingToolSubWindow.cpp">
+      <Filter>Source Files\SubWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\Arrow.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MorphFBOprocessor.cpp">
+      <Filter>Source Files\SubWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\JPG\jpeg-9e\jdatadst.cpp">
+      <Filter>Source Files\Utilities\JPG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\JPG\jpeg-9e\jdatasrc.cpp">
+      <Filter>Source Files\Utilities\JPG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\JPG\JPEG_library.cpp">
+      <Filter>Source Files\Utilities\JPG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PS_SDK\libwebp-1.2.2\src\webp\webp_loader.cpp">
+      <Filter>Source Files\Utilities\WEBP</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MetaMorpher.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\Shaders\Morph.frag">
+      <Filter>Source Files\ShaderSources</Filter>
+    </None>
+    <None Include="..\Debug\Shaders\Morph.vert">
+      <Filter>Source Files\ShaderSources</Filter>
+    </None>
+  </ItemGroup>
+</Project>
