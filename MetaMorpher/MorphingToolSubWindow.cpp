@@ -110,7 +110,7 @@ void MorphingToolSubWindow::Render()
 		glLineWidth(const_fLineWidth);
 		glColor3f(0.83, 0.69, 0);
 		std::vector<Vec2> listOutSrc;
-		CatmullSubdivide(liSource, listOutSrc);
+		CatmullSubdivide(liSource, listOutSrc, 10);
 		glBegin(GL_LINE_STRIP);
 			for (auto element : listOutSrc) {
 				glVertex3f(element.X, element.Y, 0.1);
@@ -129,7 +129,7 @@ void MorphingToolSubWindow::Render()
 		glLineWidth(const_fLineWidth);
 		glColor3f(0.23, 0.71, 0);
 		std::vector<Vec2> listOutDst;
-		CatmullSubdivide(liDestination, listOutDst);
+		CatmullSubdivide(liDestination, listOutDst, 10);
 		glBegin(GL_LINE_STRIP);
 			for (auto element : listOutDst) {
 				glVertex3f(element.X, element.Y, 0.1);
@@ -145,13 +145,14 @@ void MorphingToolSubWindow::Render()
 		glEnd();
 
 		glColor3f(1,0,0);
-		glLineWidth(2);
+		glLineWidth(3);
 		float fFinRadCorrected = _fFinalizationRadius / fUserScale;
 		if ((stateCurrent == STATE_SOURCE_POINT_INPUT) && (liSource.size() > 0))
 			DrawCircle(Vecc3(liSource.back(), 0.3), fFinRadCorrected, 20);
 		if ((stateCurrent == STATE_DESTINATION_POINT_INPUT) && (liDestination.size() > 0))
 			DrawCircle(Vecc3(liDestination.back(), 0.3), fFinRadCorrected, 20);
 
+		// Highlight matching point in a source curve when adding points to destination
 		if ((stateCurrent == STATE_DESTINATION_POINT_INPUT) &&
 			(liDestination.size() > 0) && (liSource.size() > 0))
 		{
@@ -202,8 +203,8 @@ void MorphingToolSubWindow::UploadMorphingLines()
 	texBank[TEXTURE_FLOAT_BUFFER]->m_width  = listOutSrc.size();
 	texBank[TEXTURE_FLOAT_BUFFER]->m_height = 2;
 
-	//           targ         mml  int frmt                     brdr inc frmt   inc data type   inc data
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, listOutSrc.size(),2, 0, GL_RG, GL_FLOAT, NULL);
+	//           targ         mml  int frmt  w                  h brdr inc: frmt    type    data
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, listOutSrc.size(), 2,   0,    GL_RG, GL_FLOAT, NULL);
 
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0, listOutSrc.size(), 1, GL_RG, GL_FLOAT, listOutSrc.data());
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0,1, listOutDst.size(), 1, GL_RG, GL_FLOAT, listOutDst.data());

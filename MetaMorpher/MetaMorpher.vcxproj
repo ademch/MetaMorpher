@@ -171,6 +171,7 @@
     <ClInclude Include="..\..\!!adGUI\Slider.h" />
     <ClInclude Include="..\..\!!adGUI\SubWindow.h" />
     <ClInclude Include="..\..\PS_SDK\libwebp-1.2.2\src\webp\webp_loader.h" />
+    <ClInclude Include="ImageSaveLoad.h" />
     <ClInclude Include="MorphFBOprocessor.h" />
     <ClInclude Include="MorphingToolSubWindow.h" />
     <ClInclude Include="GLSL_Pipeline.h" />
@@ -202,7 +203,9 @@
     <ClCompile Include="..\..\!!adGUI\OnOffFlipSwitch.cpp" />
     <ClCompile Include="..\..\!!adGUI\SubWindow.cpp" />
     <ClCompile Include="..\..\PS_SDK\libwebp-1.2.2\src\webp\webp_loader.cpp" />
+    <ClCompile Include="ImageSaveLoad.cpp" />
     <ClCompile Include="MorphFBOprocessor.cpp" />
+    <ClCompile Include="MorphFBOprocessorEmu.cpp" />
     <ClCompile Include="MorphingToolSubWindow.cpp" />
     <ClCompile Include="GLSL_Pipeline.cpp" />
     <ClCompile Include="ParamsSubWindow.cpp" />

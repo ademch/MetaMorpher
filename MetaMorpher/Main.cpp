@@ -9,6 +9,7 @@
 #include "MorphFBOprocessor.h"
 #include <windowsx.h>
 #include "../../!!adExtensions/extensions.h"
+#include "ImageSaveLoad.h"
 
 TextureBank  texBank;
 
@@ -185,6 +186,26 @@ void keyboard(unsigned char key, int x, int y)
 			else
 				ShowWindow(GetConsoleWindow(), SW_SHOW);
 
+			break;
+		}
+		case '2':
+		{
+			unsigned int width, height;
+			unsigned char* image = ImageSaveLoadHelper::LoadImageFromDisk(width, height);
+
+				fbo->Reshape(0, 0, width, height);
+
+				glBindTexture(GL_TEXTURE_2D, texBank[TEXTURE_INPUT_IMAGE]->m_uiTextureID);
+				//           targ         mml  int frmt             brdr inc frmt   inc data type   inc data
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+			free(image);
+
+			break;
+		}
+		case '5':
+		{
+			ImageSaveLoadHelper::SaveImageToDisk();
 			break;
 		}
 		case 27:
