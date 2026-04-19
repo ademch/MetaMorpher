@@ -166,10 +166,12 @@
     <ClInclude Include="..\..\!!adGUI\ComboBox.h" />
     <ClInclude Include="..\..\!!adGUI\fps.h" />
     <ClInclude Include="..\..\!!adGUI\glfont.h" />
+    <ClInclude Include="..\..\!!adGUI\gui_element.h" />
     <ClInclude Include="..\..\!!adGUI\label.h" />
     <ClInclude Include="..\..\!!adGUI\OnOffFlipSwitch.h" />
     <ClInclude Include="..\..\!!adGUI\Slider.h" />
     <ClInclude Include="..\..\!!adGUI\SubWindow.h" />
+    <ClInclude Include="..\..\!!adGUI\SubWindowWithGUI.h" />
     <ClInclude Include="..\..\PS_SDK\libwebp-1.2.2\src\webp\webp_loader.h" />
     <ClInclude Include="ImageSaveLoad.h" />
     <ClInclude Include="MorphFBOprocessor.h" />

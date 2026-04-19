@@ -13,7 +13,7 @@ class MorphFBOprocessor : public OpenGLSubWindow
 public:
 	FrameBufferObject* fbo;
 
-	ParamsSubWindow* m_ParamsSubWindow;
+	ParamsSubWindow*       m_ParamsSubWindow;
 	MorphingToolSubWindow* m_MorphingToolSubWindow;
 
 	std::list<Vec2> mesh_listEmu;

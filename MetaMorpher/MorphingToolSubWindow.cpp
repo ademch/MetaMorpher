@@ -27,7 +27,7 @@ void DoubleClickTimer(int value) {
 
 
 MorphingToolSubWindow::MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight) :
-	                   OpenGLSubWindow(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
+	                   OpenGLSubWindowWithGUI(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
 {
 	stateCurrent = STATE_IDLE;
 	bSrcCurveIsDone = false;
@@ -37,36 +37,43 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY,
 
 	m_bIgnoreFalseInput = false;
 
-	buttonSource = new Button("Draw src", -m_iWidth/2 + 130, -m_iHeight/2 + 10, 100, 6.3);
+	buttonSource = new Button("Draw src", 130,10, 100, 6.3);
+	buttonSource->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
 	buttonSource->OnClickThis = this;
 	buttonSource->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::SourcePolylineClicked;
 	liGUI_Elements.push_back(buttonSource);
 
-	arrow = new Arrow("", -m_iWidth/2 + 240, -m_iHeight/2 + 10 + 8, 30, 6.3);
+	arrow = new Arrow("", 240,10 + 8, 30, 6.3);
+	arrow->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
 	liGUI_Elements.push_back(arrow);
 
-	buttonDestination = new Button("Draw dst", -m_iWidth/2 + 280, -m_iHeight/2 + 10, 100, 6.3);
+	buttonDestination = new Button("Draw dst", 280,10, 100, 6.3);
+	buttonDestination->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
 	buttonDestination->OnClickThis = this;
 	buttonDestination->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::DestinationPolylineClicked;
 	liGUI_Elements.push_back(buttonDestination);
 
-	buttonMorphNow = new Button("Morph now", -m_iWidth/2 + 400, -m_iHeight / 2 + 10, 100, 6.3);
+	buttonMorphNow = new Button("Morph now", 400,10, 100, 6.3);
+	buttonMorphNow->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
 	buttonMorphNow->OnClickThis = this;
 	buttonMorphNow->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::MorphNow;
 	liGUI_Elements.push_back(buttonMorphNow);
 
-	comboBox = new ComboBox("Default", iWidth/2 - 180, -iHeight/2 + 10, 170, 6.3);
+	comboBox = new ComboBox("Default", - 180,10, 170, 6.3);
+	comboBox->SetAlignment(HALIGN_RIGHT, VALIGN_BOTTOM);
 	comboBox->bVisible = false;
 	comboBox->bEnabled = false;
 	liGUI_Elements.push_back(comboBox);
 
-	buttonResetView = new Button("Reset view", iWidth/2 -180, iHeight/2 - 30, 100, 6);
+	buttonResetView = new Button("Reset view", -180,-30, 100, 6);
+	buttonResetView->SetAlignment(HALIGN_RIGHT, VALIGN_TOP);
 	buttonResetView->OnClickThis = this;
 	buttonResetView->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::ResetView;
 	liGUI_Elements.push_back(buttonResetView);
 
 	fMorphRatio = 90;
-	SliderMorphRatio = new Slider<SL_INT>(" Ratio", -m_iWidth / 2 + 130, -m_iHeight / 2 + 50, 0, 100, &fMorphRatio, 7);
+	SliderMorphRatio = new Slider<SL_INT>(" Ratio", 130,50, 0, 100, &fMorphRatio, 7);
+	SliderMorphRatio->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
 	SliderMorphRatio->SetBoxWidth(370);
 	SliderMorphRatio->SetBoxSeparation(10);
 	SliderMorphRatio->fValueGranularity = 1;
@@ -183,12 +190,7 @@ void MorphingToolSubWindow::Render()
 
 	///////
 
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	for (auto iterElement : liGUI_Elements)
-		iterElement->Draw();
+	RenderGUI();
 }
 
 
@@ -224,14 +226,7 @@ void MorphingToolSubWindow::Reshape(int iBottomLeftX, int iBottomLeftY, int iWid
 {
 	OpenGLSubWindow::Reshape(iBottomLeftX, iBottomLeftY, iWidth, iHeight);
 
-	buttonSource->Reposition(-iWidth/2 + 130, -iHeight/2 + 10);
-	arrow->Reposition(-iWidth/2 + 240, -iHeight/2 + 10 + 8);
-	buttonDestination->Reposition(-iWidth/2 + 280, -iHeight/2 + 10);
-	buttonMorphNow->Reposition(-m_iWidth/2 + 400, -m_iHeight/2 + 10);
-	SliderMorphRatio->Reposition(-m_iWidth / 2 + 130, -m_iHeight / 2 + 50);
-
-	comboBox->Reposition(iWidth/2 - 180, -iHeight/2 + 10);
-	buttonResetView->Reposition(iWidth/2 - 110, iHeight/2 - 30);
+	ReshapeGUI(iWidth, iHeight);
 }
 
 void MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
@@ -264,16 +259,7 @@ void MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 			if (!bHit) glutSetCursor(GLUT_CURSOR_INHERIT);
 		}
 		
-		SetupGraphicsPipeline();
-		// reset transformation working with GUI
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-		Vec3d v3DCoords;
-		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
-
-		for (auto iterElement : liGUI_Elements)
-			iterElement->Hover(v3DCoords.X, v3DCoords.Y);
+		PassiveMotionFuncGUI(x, y);
 	}
 }
 
@@ -290,19 +276,9 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
 	{
 		// Process GUI first
-		SetupGraphicsPipeline();
+		if (MouseFuncGUI(button, state, x,y)) return;
 
-		// reset transformation when working with GUI
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
 
-		Vec3d v3DCoords;
-		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
-
-		for (auto iterElement : liGUI_Elements)
-			if (iterElement->Clicked(button, state, v3DCoords.X, v3DCoords.Y)) return;
-
-	
 		// Process local logic
 
 		// MouseMove does not have a way to get button state,
@@ -312,6 +288,7 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 
 		SetupGraphicsPipeline();
 
+		Vec3d v3DCoords;
 		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
 
 		// any click down from idle starts the drawing mode first
@@ -484,17 +461,7 @@ void MorphingToolSubWindow::MotionFunc(int x, int y)
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
 	{
 		// Process GUI first
-		SetupGraphicsPipeline();
-
-		// reset transformation working with GUI
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
-		Vec3d v3DCoords;
-		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
-
-		for (auto iterElement : liGUI_Elements)
-			iterElement->Drag(v3DCoords.X, v3DCoords.Y);
+		MotionFuncGUI(x, y);
 
 		// Process local logic
 
@@ -502,6 +469,7 @@ void MorphingToolSubWindow::MotionFunc(int x, int y)
 
 		SetupGraphicsPipeline();
 
+		Vec3d v3DCoords;
 		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
 
 		if ((stateCurrent == STATE_SOURCE_DRAWING_INPUT) || (stateCurrent == STATE_DESTINATION_DRAWING_INPUT))

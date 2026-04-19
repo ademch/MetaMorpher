@@ -1,7 +1,7 @@
 #ifndef MORPHINGTOOLSUBWINDOW_H
 #define MORPHINGTOOLSUBWINDOW_H
 
-#include "../../!!adGUI/SubWindow.h"
+#include "../../!!adGUI/SubWindowWithGUI.h"
 #include <vector>
 #include "../../!!adGUI/gui_element.h"
 #include "../../!!adGUI/ComboBox.h"
@@ -16,7 +16,7 @@ enum StateInput_enum { STATE_IDLE,
 					   STATE_POINT_DRAG
 				     };
 
-class MorphingToolSubWindow : public OpenGLSubWindow
+class MorphingToolSubWindow : public OpenGLSubWindowWithGUI
 {
 public:
 	MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight);
@@ -46,15 +46,13 @@ public:
 protected:
 	void UploadMorphingLines();
 
-	std::vector<GUI_Element*> liGUI_Elements;
-
 	ComboBox* comboBox;
-	Arrow  * arrow;
-	Button *buttonResetView;
-	Button *buttonSource;
-	Button *buttonDestination;
-	Button *buttonMorphNow;
-	Slider<SL_INT>   *SliderMorphRatio;
+	Arrow*  arrow;
+	Button* buttonResetView;
+	Button* buttonSource;
+	Button* buttonDestination;
+	Button* buttonMorphNow;
+	Slider<SL_INT>* SliderMorphRatio;
 
 	bool ResetView();
 
