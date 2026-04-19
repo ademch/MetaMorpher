@@ -103,8 +103,9 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 	windowParams->bSceneZoomAllowed = false;
 	liWindows.push_back(windowParams);
 
-	// register window after it has been created
-	fbo->m_ParamsSubWindow = windowParams;
+	// register mutual pointers
+	fbo->m_ParamsSubWindow        = windowParams;
+	fbo->m_MorphingToolSubWindow  = windowTool;
 	windowTool->m_ParamsSubWindow = windowParams;
 
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
@@ -119,7 +120,7 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 
 void ReshapeFunc(GLsizei w, GLsizei h)
 {
-	iAppWndWidth = w;
+	iAppWndWidth  = w;
 	iAppWndHeight = h;
 
 	//установка преобраования: прямоугольник сцены- прямоугольник окна экрана

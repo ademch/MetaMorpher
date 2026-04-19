@@ -65,6 +65,14 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY,
 	buttonResetView->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::ResetView;
 	liGUI_Elements.push_back(buttonResetView);
 
+	fMorphRatio = 90;
+	SliderMorphRatio = new Slider<SL_INT>(" Ratio", -m_iWidth / 2 + 130, -m_iHeight / 2 + 50, 0, 100, &fMorphRatio, 7);
+	SliderMorphRatio->SetBoxWidth(370);
+	SliderMorphRatio->SetBoxSeparation(10);
+	SliderMorphRatio->fValueGranularity = 1;
+	SliderMorphRatio->fTickGranularity = 10;
+	liGUI_Elements.push_back(SliderMorphRatio);
+
 	typeTexBankIter iter;
 	for (iter = texBank.bank.begin(); iter != texBank.bank.end(); ++iter)
 		comboBox->items.push_back( iter->first.c_str() );
@@ -199,15 +207,15 @@ void MorphingToolSubWindow::UploadMorphingLines()
 
 	glActiveTextureARB(GL_TEXTURE1);
 
-	glBindTexture(GL_TEXTURE_2D, texBank[TEXTURE_FLOAT_BUFFER]->m_uiTextureID);
-	texBank[TEXTURE_FLOAT_BUFFER]->m_width  = listOutSrc.size();
-	texBank[TEXTURE_FLOAT_BUFFER]->m_height = 2;
+		glBindTexture(GL_TEXTURE_2D, texBank[TEXTURE_FLOAT_BUFFER]->m_uiTextureID);
+		texBank[TEXTURE_FLOAT_BUFFER]->m_width  = listOutSrc.size();
+		texBank[TEXTURE_FLOAT_BUFFER]->m_height = 2;
 
-	//           targ         mml  int frmt  w                  h brdr inc: frmt    type    data
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, listOutSrc.size(), 2,   0,    GL_RG, GL_FLOAT, NULL);
+		//           targ         mml  int frmt  w                  h brdr inc: frmt    type    data
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, listOutSrc.size(), 2,   0,    GL_RG, GL_FLOAT, NULL);
 
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0, listOutSrc.size(), 1, GL_RG, GL_FLOAT, listOutSrc.data());
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0,1, listOutDst.size(), 1, GL_RG, GL_FLOAT, listOutDst.data());
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0, listOutSrc.size(), 1, GL_RG, GL_FLOAT, listOutSrc.data());
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0,1, listOutDst.size(), 1, GL_RG, GL_FLOAT, listOutDst.data());
 
 	glActiveTextureARB(GL_TEXTURE0);
 }
@@ -220,6 +228,7 @@ void MorphingToolSubWindow::Reshape(int iBottomLeftX, int iBottomLeftY, int iWid
 	arrow->Reposition(-iWidth/2 + 240, -iHeight/2 + 10 + 8);
 	buttonDestination->Reposition(-iWidth/2 + 280, -iHeight/2 + 10);
 	buttonMorphNow->Reposition(-m_iWidth/2 + 400, -m_iHeight/2 + 10);
+	SliderMorphRatio->Reposition(-m_iWidth / 2 + 130, -m_iHeight / 2 + 50);
 
 	comboBox->Reposition(iWidth/2 - 180, -iHeight/2 + 10);
 	buttonResetView->Reposition(iWidth/2 - 110, iHeight/2 - 30);
@@ -268,7 +277,7 @@ void MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 	}
 }
 
-
+// Mouse button callback
 void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 {
 	float fJitter       = 5;
@@ -364,8 +373,8 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 				ptPrevPoint = Vecc2(x, y);
 			}
 		}
-		// 1. We entered here for recording of initial position of a point for drag
-		// 2. We entered here to add additional point to a finished line
+		// 1. We enter here for recording of initial position of a point for drag
+		// 2. We enter here to add additional point to a finished line
 		else if ((stateCurrent == STATE_IDLE) && (button == GLUT_LEFT_BUTTON) && (state == GLUT_DOWN))
 		{
 			if (bSrcCurveIsDone || bDstCurveIsDone)
@@ -388,8 +397,8 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 			{
 				for (unsigned int i = 0; i < liDestination.size() - 1; i++)
 				{
-					if ((PointDistSqr(Vecc3(v3DCoords), Vecc3(liDestination[i]))   > sqr(fBlindZoneRad/fUserScale)) &&
-						(PointDistSqr(Vecc3(v3DCoords), Vecc3(liDestination[i+1])) > sqr(fBlindZoneRad/fUserScale)))
+					if ((PointDistSqr(Vecc2(v3DCoords), liDestination[i])   > sqr(fBlindZoneRad/fUserScale)) &&
+						(PointDistSqr(Vecc2(v3DCoords), liDestination[i+1]) > sqr(fBlindZoneRad/fUserScale)))
 					{
 						Vec3 ptOut;
 						if (PointDistToLineSegment(Vecc3(v3DCoords),
@@ -413,15 +422,55 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 							else {
 								bDoubleClick = true;
 								glutTimerFunc(250, DoubleClickTimer, 0);
+								return;
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		// 1. We enter here to remove a point from a finished line
+		else if ((stateCurrent == STATE_IDLE) && (button == GLUT_RIGHT_BUTTON) && (state == GLUT_DOWN))
+		{
+			// allow removing points only after both curves are done (disputable)
+			if (bSrcCurveIsDone && bDstCurveIsDone)
+			{
+				if (liDestination.size() > 1)
+				{
+					for (unsigned int i = 0; i < liDestination.size(); i++)
+					{
+						if (PointDistSqr(Vecc2(v3DCoords), liDestination[i]) < sqr(fJitter / fUserScale))
+						{
+
+							if (bDoubleClick)
+							{
+								liDestination.erase(liDestination.begin() + i);
+
+								if (liSource.size() - 1 == liDestination.size())
+								{
+									liSource.erase(liSource.begin() + i);
+									UploadMorphingLines();
+								}
+
+								bDoubleClick = false;
+								return;
+							}
+							else {
+								bDoubleClick = true;
+								glutTimerFunc(250, DoubleClickTimer, 0);
+								return;
 							}
 						}
 					}
 				}
 			}
 		}
+
 	}
 
-	if ((button != GLUT_LEFT_BUTTON) && (state == GLUT_UP)) m_bIgnoreFalseInput = false;
+	if ((button != GLUT_LEFT_BUTTON) && (state == GLUT_UP))
+		m_bIgnoreFalseInput = false;
 	if ((button == GLUT_LEFT_BUTTON) && (state == GLUT_UP) && (stateCurrent == STATE_POINT_DRAG))
 		stateCurrent = STATE_IDLE;
 }

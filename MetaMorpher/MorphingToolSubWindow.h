@@ -41,17 +41,20 @@ public:
 
 	ParamsSubWindow* m_ParamsSubWindow;
 
+	float fMorphRatio;
+
 protected:
 	void UploadMorphingLines();
 
 	std::vector<GUI_Element*> liGUI_Elements;
 
 	ComboBox* comboBox;
-	Arrow* arrow;
-	Button* buttonResetView;
+	Arrow  * arrow;
+	Button *buttonResetView;
 	Button *buttonSource;
 	Button *buttonDestination;
-	Button* buttonMorphNow;
+	Button *buttonMorphNow;
+	Slider<SL_INT>   *SliderMorphRatio;
 
 	bool ResetView();
 

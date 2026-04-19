@@ -11,8 +11,8 @@
 
 GLFONT font;
 
-int iAppWndWidth = 1300;
-int iAppWndHeight = 480;
+int iAppWndWidth = 1200;
+int iAppWndHeight = 800;
 
 
 // объявления прототипов

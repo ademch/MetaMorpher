@@ -26,6 +26,7 @@ bool bSuccess;
 	GPUPrograms["morph"]->Uniforms["tex1"]         = glGetUniformLocationARBassert(GPUPrograms["morph"]->programObj, "tex1");
 	GPUPrograms["morph"]->Uniforms["fMorphRadius"] = glGetUniformLocationARBassert(GPUPrograms["morph"]->programObj, "fMorphRadius");
 	GPUPrograms["morph"]->Uniforms["fMorphPower"]  = glGetUniformLocationARBassert(GPUPrograms["morph"]->programObj, "fMorphPower");
+	GPUPrograms["morph"]->Uniforms["fMorphRatio"]  = glGetUniformLocationARBassert(GPUPrograms["morph"]->programObj, "fMorphRatio");
 
 	return true;
 }

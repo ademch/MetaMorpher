@@ -4,6 +4,7 @@ uniform sampler2D tex1;	// src/dst morphing lists
 
 uniform float fMorphRadius;
 uniform float fMorphPower;
+uniform float fMorphRatio;
 
 const float PI = 3.14159265359;
 const float FLOAT_EPS = 0.001;
@@ -28,15 +29,16 @@ void main(void)
     vec2 vShift = vec2(0.0);
     for (int i = 0; i < iMorphPointsCount; i++)
 	{
-		vec2 ptSrc = texelFetch(tex1, ivec2(i, 0), 0).st;
-		vec2 ptDst = texelFetch(tex1, ivec2(i, 1), 0).st;
+		vec2 ptSrc  = texelFetch(tex1, ivec2(i, 0), 0).st;
+		vec2 ptDst  = texelFetch(tex1, ivec2(i, 1), 0).st;
+		vec2 ptLerp = mix(ptSrc, ptDst, fMorphRatio/100.0);
 
         float dist = distance(ptSrc, vPosition.xy);
         float weight = 0;
 		if (dist < fMorphRadius)
 			weight = pow(cos(dist/fMorphRadius*PI)/2.0 + 0.5, fMorphPower);
         fTotalWeight += weight;
-		vShift += weight * (ptDst - ptSrc);
+		vShift += weight * (ptLerp - ptSrc);
     }
 	if (fTotalWeight > FLOAT_EPS) {
 		vShift *= 1.0/fTotalWeight;
