@@ -1,7 +1,7 @@
 #ifndef PARAMSSUBSUBWINDOW_H
 #define PARAMSSUBSUBWINDOW_H
 
-#include "../../!!adGUI/SubWindow.h"
+#include "../../!!adGUI/SubWindowWithGUI.h"
 #include "../../!!adGUI/Slider.h"
 #include "../../!!adGUI/OnOffFlipSwitch.h"
 #include "../../!!adGUI/button.h"
@@ -49,7 +49,7 @@ public:
 	}
 };
 
-class ParamsSubWindow : public OpenGLSubWindow
+class ParamsSubWindow : public OpenGLSubWindowWithGUI
 {
 public:
 	ParamsSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight);
@@ -77,8 +77,6 @@ public:
 	void MakePointsVisible();
 
 protected:
-
-	std::vector<GUI_Element*> liGUI_Elements;
 
 private:
 	Slider<SL_INT>   *SliderMorphRadius;

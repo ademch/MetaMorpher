@@ -23,7 +23,6 @@ public:
 	~MorphingToolSubWindow();
 
 	virtual	void Render();
-	virtual void Reshape(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight);
 
 	virtual void PassiveMotionFunc(int x, int y);
 	virtual void MouseFunc(int button, int state, int x, int y);

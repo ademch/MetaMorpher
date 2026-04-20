@@ -10,10 +10,11 @@ extern GLSL_Pipeline glsl_pipeline;
 extern TextureBank texBank;
 
 ParamsSubWindow::ParamsSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight) :
-			     OpenGLSubWindow(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
+						OpenGLSubWindowWithGUI(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
 {
 	fMorphRadius = 80;
-	SliderMorphRadius = new Slider<SL_INT>(" Radius", -m_iWidth/2 + 30, m_iHeight/2 - 120, 0,500, &fMorphRadius, 7);
+	SliderMorphRadius = new Slider<SL_INT>(" Radius", 30,170, 0,500, &fMorphRadius, 7);
+	SliderMorphRadius->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	SliderMorphRadius->SetBoxWidth(200);
 	SliderMorphRadius->SetBoxSeparation(1);
 	SliderMorphRadius->fValueGranularity = 1;
@@ -21,47 +22,56 @@ ParamsSubWindow::ParamsSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth,
 	liGUI_Elements.push_back(SliderMorphRadius);
 
 	fMorphPower = 1.0f;
-	SliderMorphSmoothness = new SliderCenterLine("Power", -m_iWidth/2 + 30, m_iHeight/2 - 160, 0.1, 10.1, &fMorphPower, 7);
+	SliderMorphSmoothness = new SliderCenterLine("Power", 30,130, 0.1, 10.1, &fMorphPower, 7);
+	SliderMorphSmoothness->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	SliderMorphSmoothness->SetBoxWidth(200);
 	SliderMorphSmoothness->SetBoxSeparation(1);
 	SliderMorphSmoothness->fValueGranularity = 0.1;
 	SliderMorphSmoothness->fTickGranularity = 0.5;
 	liGUI_Elements.push_back(SliderMorphSmoothness);
 
-	onoffswitchWireframe = new OnOffFlipSwitch("Wireframe", -m_iWidth/2 + 30, m_iHeight/2 - 200, 6);
+	onoffswitchWireframe = new OnOffFlipSwitch("Wireframe", 30,90, 6);
+	onoffswitchWireframe->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	liGUI_Elements.push_back(onoffswitchWireframe);
 
-	OnOffFlipSwitch* onoffswitchShaders = new OnOffFlipSwitch("Shaders", -m_iWidth/2 + 190, m_iHeight/2 - 200, 6);
+	OnOffFlipSwitch* onoffswitchShaders = new OnOffFlipSwitch("Shaders", 190,90, 6);
+	onoffswitchShaders->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	//onoffswitchShaders->bEnabled = false;
 	onoffswitchShaders->OnPreClickThis = this;
 	onoffswitchShaders->OnPreClick = (bool(__thiscall OpenGLSubWindow::*)(bool))&ParamsSubWindow::CompileShaders;
 	liGUI_Elements.push_back(onoffswitchShaders);
 
-	onoffswitchShowPoints = new OnOffFlipSwitch("Points", -m_iWidth/2 + 30, m_iHeight/2 - 240, 6);
+	onoffswitchShowPoints = new OnOffFlipSwitch("Points", 30,50, 6);
+	onoffswitchShowPoints->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	onoffswitchShowPoints->bON = true;
 	liGUI_Elements.push_back(onoffswitchShowPoints);
 
-	onoffpushbuttonOriginal = new OnOffFlipSwitch("Original", -m_iWidth / 2 + 190, m_iHeight / 2 - 240, 6);
+	onoffpushbuttonOriginal = new OnOffFlipSwitch("Original", 190,50, 6);
+	onoffpushbuttonOriginal->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	onoffpushbuttonOriginal->bON = false;
 	onoffpushbuttonOriginal->bPushButton = true;
 	liGUI_Elements.push_back(onoffpushbuttonOriginal);
 
-	buttonMorphNext = new Button("Apply", -m_iWidth/2 + 30, m_iHeight/2 - 300, 120, 6.3);
+	buttonMorphNext = new Button("Apply", 30,-10, 120, 6.3);
+	buttonMorphNext->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	buttonMorphNext->OnClickThis = this;
 	buttonMorphNext->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&ParamsSubWindow::StartNextGeneration;
 	liGUI_Elements.push_back(buttonMorphNext);
 
-	buttonLoadImage = new Button("Load image...", -m_iWidth/2 + 30, m_iHeight/2 - 400, 120, 6.3);
+	buttonLoadImage = new Button("Load image...", 30,-110, 120, 6.3);
+	buttonLoadImage->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	buttonLoadImage->OnClickThis = this;
 	buttonLoadImage->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&ParamsSubWindow::LoadImageFromDisk;
 	liGUI_Elements.push_back(buttonLoadImage);
 
-	buttonSaveFrame = new Button("Save image...", -m_iWidth/2 + 30, m_iHeight/2 - 430, 120, 6.3);
+	buttonSaveFrame = new Button("Save image...", 30,-140, 120, 6.3);
+	buttonSaveFrame->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	buttonSaveFrame->OnClickThis = this;
 	buttonSaveFrame->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&ParamsSubWindow::SaveFrame;
 	liGUI_Elements.push_back(buttonSaveFrame);
 
-	FPS* fpsElement = new FPS(-m_iWidth/2 + 200, m_iHeight/2 - 430, 6);
+	FPS* fpsElement = new FPS(200,-140, 6);
+	fpsElement->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	liGUI_Elements.push_back(fpsElement);
 
 	// Enable shaders
@@ -77,14 +87,14 @@ ParamsSubWindow::~ParamsSubWindow()
 		delete (*iterElement);
 }
 
+
 void ParamsSubWindow::Render()
 {
 	OpenGLSubWindow::Render();
 
 	glDisable(GL_LIGHTING);
 
-	for (auto iterElement : liGUI_Elements)
-		iterElement->Draw();
+	RenderGUI();
 }
 
 void ParamsSubWindow::PassiveMotionFunc(int x, int y)
@@ -94,13 +104,7 @@ void ParamsSubWindow::PassiveMotionFunc(int x, int y)
 	if ((x > m_iBottomLeftX) && (x < m_iBottomLeftX + m_iWidth) &&
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
 	{
-		SetupGraphicsPipeline();
-
-		Vec3d v3DCoords;
-		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
-
-		for (auto iterElement : liGUI_Elements)
-			iterElement->Hover(v3DCoords.X, v3DCoords.Y);
+		PassiveMotionFuncGUI(x, y);
 	}
 }
 
@@ -108,13 +112,7 @@ void ParamsSubWindow::MouseFunc(int button, int state, int x, int y)
 {
 	OpenGLSubWindow::MouseFunc(button, state, x, y);
 
-	SetupGraphicsPipeline();
-
-	Vec3d v3DCoords;
-	gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
-
-	for (auto iterElement : liGUI_Elements)
-		iterElement->Clicked(button, state, v3DCoords.X, v3DCoords.Y);
+	if (MouseFuncGUI(button, state, x, y)) return;
 }
 
 
@@ -122,13 +120,7 @@ void ParamsSubWindow::MotionFunc(int x, int y)
 {
 	OpenGLSubWindow::MotionFunc(x, y);
 
-	SetupGraphicsPipeline();
-
-	Vec3d v3DCoords;
-	gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
-
-	for (auto iterElement : liGUI_Elements)
-		iterElement->Drag(v3DCoords.X, v3DCoords.Y);
+	MotionFuncGUI(x, y);
 }
 
 bool ParamsSubWindow::LoadImageFromDisk()

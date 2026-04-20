@@ -37,43 +37,43 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY,
 
 	m_bIgnoreFalseInput = false;
 
-	buttonSource = new Button("Draw src", 130,10, 100, 6.3);
-	buttonSource->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
+	buttonSource = new Button("Draw src", -230,10, 100, 6.3);
+	buttonSource->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
 	buttonSource->OnClickThis = this;
 	buttonSource->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::SourcePolylineClicked;
 	liGUI_Elements.push_back(buttonSource);
 
-	arrow = new Arrow("", 240,10 + 8, 30, 6.3);
-	arrow->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
+	arrow = new Arrow("", -120,10 + 8, 30, 6.3);
+	arrow->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
 	liGUI_Elements.push_back(arrow);
 
-	buttonDestination = new Button("Draw dst", 280,10, 100, 6.3);
-	buttonDestination->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
+	buttonDestination = new Button("Draw dst", -80,10, 100, 6.3);
+	buttonDestination->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
 	buttonDestination->OnClickThis = this;
 	buttonDestination->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::DestinationPolylineClicked;
 	liGUI_Elements.push_back(buttonDestination);
 
-	buttonMorphNow = new Button("Morph now", 400,10, 100, 6.3);
-	buttonMorphNow->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
+	buttonMorphNow = new Button("Morph now", 40,10, 100, 6.3);
+	buttonMorphNow->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
 	buttonMorphNow->OnClickThis = this;
 	buttonMorphNow->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::MorphNow;
 	liGUI_Elements.push_back(buttonMorphNow);
 
-	comboBox = new ComboBox("Default", - 180,10, 170, 6.3);
+	comboBox = new ComboBox("Default", -180,10, 170, 6.3);
 	comboBox->SetAlignment(HALIGN_RIGHT, VALIGN_BOTTOM);
 	comboBox->bVisible = false;
 	comboBox->bEnabled = false;
 	liGUI_Elements.push_back(comboBox);
 
-	buttonResetView = new Button("Reset view", -180,-30, 100, 6);
+	buttonResetView = new Button("Reset view", -180,-30, 100, 6); 
 	buttonResetView->SetAlignment(HALIGN_RIGHT, VALIGN_TOP);
 	buttonResetView->OnClickThis = this;
 	buttonResetView->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::ResetView;
 	liGUI_Elements.push_back(buttonResetView);
 
 	fMorphRatio = 90;
-	SliderMorphRatio = new Slider<SL_INT>(" Ratio", 130,50, 0, 100, &fMorphRatio, 7);
-	SliderMorphRatio->SetAlignment(HALIGN_LEFT, VALIGN_BOTTOM);
+	SliderMorphRatio = new Slider<SL_INT>(" Ratio", -230,50, 0, 100, &fMorphRatio, 7);
+	SliderMorphRatio->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
 	SliderMorphRatio->SetBoxWidth(370);
 	SliderMorphRatio->SetBoxSeparation(10);
 	SliderMorphRatio->fValueGranularity = 1;
@@ -222,12 +222,6 @@ void MorphingToolSubWindow::UploadMorphingLines()
 	glActiveTextureARB(GL_TEXTURE0);
 }
 
-void MorphingToolSubWindow::Reshape(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight)
-{
-	OpenGLSubWindow::Reshape(iBottomLeftX, iBottomLeftY, iWidth, iHeight);
-
-	ReshapeGUI(iWidth, iHeight);
-}
 
 void MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 {
