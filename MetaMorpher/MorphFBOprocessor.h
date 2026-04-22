@@ -25,6 +25,8 @@ public:
 
 	virtual void Reshape(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight);
 
+	void TextureUpdate(int iWidth, int iHeight, unsigned char* image);
+
 	void _TextureUpdate_Test(int iWidth, int iHeight, int nrChannels);
 
 	virtual bool KeyboardFunc(unsigned char key, int x, int y);

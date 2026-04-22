@@ -197,14 +197,13 @@ void keyboard(unsigned char key, int x, int y)
 			unsigned int width, height;
 			unsigned char* image = ImageSaveLoadHelper::LoadImageFromDisk(width, height);
 
+			if (image)
+			{
 				fbo->Reshape(0, 0, width, height);
-
-				glBindTexture(GL_TEXTURE_2D, texBank[TEXTURE_INPUT_IMAGE]->m_uiTextureID);
-				//           targ         mml  int frmt             brdr inc frmt   inc data type   inc data
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-
-			free(image);
-
+				fbo->TextureUpdate(width, height, image);
+				
+				free(image);
+			}
 			break;
 		}
 		case '5':

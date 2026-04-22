@@ -18,14 +18,14 @@ void main(void)
 
 	int iMorphPointsCount = textureSize(tex1, 0).s;
 
-	// 1. At the first step we decide the translation direction vector as a rotating vector of unity length.
+	// 1. At the first step we decide the translation direction vector (a radius-vector of unity length).
     //    The direction is found as weighted combination of !directional shifts!
-    //    making a single vector of full translation we believe in (consequently final destination point).
-	//    The distance to the source point decides how much to believe in this contribution.
-	//    To make it a uity vector direction is normalized at the ned of the step.
+    //    making a single vector of translation direction we believe in.
+	//    The distance to each source point decides how much to believe in this contribution.
+	//    To make it a unity vector direction is normalized at the end of the step.
 	//    I.e., 100% of votes are spread between each !directional shift!:
-	//    E.g. 1%*Pair0 + 11%*Pair1 + 55%*Pair2 + 2*Pair3 => Total votes: 113.1 =>
-	//    0.088% voted for full travel offered by Pair0, 9.7% for Pair1, 88% for Pair2, 1.7% for Pair3
+	//    E.g. 0.1*Pair0 + 11*Pair1 + 100*Pair2 + 2*Pair3 => Total votes: 113.1 =>
+	//    0.088% voted for direction offered by Pair0, 9.7% for Pair1, 88% for Pair2, 1.7% for Pair3
 	float fTotalWeight = 0.0;
     vec2 vShift = vec2(0.0);
     for (int i = 0; i < iMorphPointsCount; i++)
@@ -46,6 +46,7 @@ void main(void)
     }
 
 	// 2. During the second step it is decided the fullness of travel to the decided location
+	//    based on the vertex proximity to the closest source point
 	float distMin = P_INFINITY;
 	for (int i = 0; i < iMorphPointsCount; ++i)
 	{

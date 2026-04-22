@@ -151,6 +151,16 @@ TextureDescriptor* MorphFBOprocessor::AllocFloatBufferTexture(int iWidth, int iH
 }
 
 
+void MorphFBOprocessor::TextureUpdate(int iWidth, int iHeight, unsigned char* image)
+{
+
+	glBindTexture(GL_TEXTURE_2D, texBank[TEXTURE_INPUT_IMAGE]->m_uiTextureID);
+
+	//           targ         mml  int frmt                brdr inc frmt   inc data type   inc data
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+}
+
+
 void MorphFBOprocessor::_TextureUpdate_Test(int iWidth, int iHeight, int nrChannels)
 {
 	unsigned char* data = NULL;

@@ -194,10 +194,10 @@ void MorphingToolSubWindow::UploadMorphingLines()
 	assert(liSource.size() == liDestination.size());
 
 	std::vector<Vec2> listOutSrc;
-	CatmullSubdivide(liSource, listOutSrc);
+	CatmullSubdivide(liSource, listOutSrc, 20);
 
 	std::vector<Vec2> listOutDst;
-	CatmullSubdivide(liDestination, listOutDst);
+	CatmullSubdivide(liDestination, listOutDst, 20);
 
 	assert(listOutSrc.size() == listOutDst.size());
 
