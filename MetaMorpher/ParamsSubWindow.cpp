@@ -9,8 +9,11 @@
 extern GLSL_Pipeline glsl_pipeline;
 extern TextureBank texBank;
 
-ParamsSubWindow::ParamsSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight) :
-						OpenGLSubWindowWithGUI(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
+ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
+								 float fBottomLeftXperc, float fBottomLeftYperc,
+								 float fWidthPerc, float fHeightPerc) :
+	      OpenGLSubWindowWithGUI(iParentWidth, iParentHeight,
+								 fBottomLeftXperc, fBottomLeftYperc, fWidthPerc, fHeightPerc)
 {
 	fMorphRadius = 80;
 	SliderMorphRadius = new Slider<SL_INT>(" Radius", 30,170, 0,500, &fMorphRadius, 7);

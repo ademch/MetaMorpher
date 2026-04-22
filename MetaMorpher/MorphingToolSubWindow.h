@@ -19,7 +19,9 @@ enum StateInput_enum { STATE_IDLE,
 class MorphingToolSubWindow : public OpenGLSubWindowWithGUI
 {
 public:
-	MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight);
+	MorphingToolSubWindow(int iParentWidth, int iParentHeight,
+						  float fBottomLeftXperc, float fBottomLeftYperc,
+						  float fWidthPerc, float fHeightPerc);
 	~MorphingToolSubWindow();
 
 	virtual	void Render();

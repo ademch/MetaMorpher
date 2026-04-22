@@ -3,7 +3,7 @@
 //#include "resource.h"
 #include "../../!!adGlobals/glut/glut.h"
 #include "../../!!adGUI/glfont.h"
-#include "../../!!adGUI/SubWindow.h"
+#include "../../!!adGUI/SubWindowWithGUI.h"
 #include <vector>
 #include "GLSL_Pipeline.h"
 #include "MorphFBOprocessor.h"
@@ -30,7 +30,7 @@ static WNDPROC currentWndProc;
 static HWND handle = NULL;
 static LRESULT CALLBACK winProcUser(HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-std::vector<OpenGLSubWindow*> liWindows;
+std::vector<OpenGLSubWindowWithGUI*> liWindows;
 
 GLSL_Pipeline glsl_pipeline;
 

@@ -52,7 +52,9 @@ public:
 class ParamsSubWindow : public OpenGLSubWindowWithGUI
 {
 public:
-	ParamsSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight);
+	ParamsSubWindow(int iParentWidth, int iParentHeight,
+					float fBottomLeftXperc, float fBottomLeftYperc,
+					float fWidthPerc, float fHeightPerc);
 	~ParamsSubWindow();
 
 	virtual	void Render();

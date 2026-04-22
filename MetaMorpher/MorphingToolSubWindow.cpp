@@ -26,8 +26,11 @@ void DoubleClickTimer(int value) {
 
 
 
-MorphingToolSubWindow::MorphingToolSubWindow(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight) :
-	                   OpenGLSubWindowWithGUI(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
+MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight,
+											 float fBottomLeftXperc, float fBottomLeftYperc,
+											 float fWidthPerc, float fHeightPerc) :
+	                   OpenGLSubWindowWithGUI(iParentWidth, iParentHeight,
+											  fBottomLeftXperc, fBottomLeftYperc, fWidthPerc, fHeightPerc)
 {
 	stateCurrent = STATE_IDLE;
 	bSrcCurveIsDone = false;

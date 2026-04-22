@@ -89,14 +89,14 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 	fbo = new MorphFBOprocessor(0, 0, 800, 600);
 
 	MorphingToolSubWindow* windowTool;
-	windowTool = new MorphingToolSubWindow(iAppWndWidth*0.01, iAppWndHeight*0.02, iAppWndWidth*0.70, iAppWndHeight*0.96);
+	windowTool = new MorphingToolSubWindow(iAppWndWidth,iAppWndHeight, 0.01,0.02, 0.70,0.96);
 	sprintf(windowTool->m_strCaption, "%s", "Zoom");
 	windowTool->bSceneRotationAllowed = false;
 	windowTool->fZoomFactor = 0.8;
 	liWindows.push_back(windowTool);
 
 	ParamsSubWindow* windowParams;
-	windowParams = new ParamsSubWindow(iAppWndWidth*0.72, iAppWndHeight*0.02, iAppWndWidth*0.27, iAppWndHeight*0.96);
+	windowParams = new ParamsSubWindow(iAppWndWidth,iAppWndHeight, 0.72,0.02, 0.27,0.96);
 	sprintf(windowParams->m_strCaption, "%s", "Params");
 	windowParams->bSceneRotationAllowed = false;
 	windowParams->bSceneDragAllowed = false;
@@ -140,8 +140,11 @@ void ReshapeFunc(GLsizei w, GLsizei h)
 	//выбор стека матриц модельно-видовых преобразований
 	glMatrixMode(GL_MODELVIEW);
 
-	liWindows[0]->Reshape(iAppWndWidth*0.01, iAppWndHeight*0.02, iAppWndWidth*0.70, iAppWndHeight*0.96);
-	liWindows[1]->Reshape(iAppWndWidth*0.72, iAppWndHeight*0.02, iAppWndWidth*0.27, iAppWndHeight*0.96);
+	for (auto iterWindow : liWindows)
+		iterWindow->Reshape(iAppWndWidth*iterWindow->fBottomLeftXperc,
+							iAppWndHeight*iterWindow->fBottomLeftYperc,
+			                iAppWndWidth*iterWindow->fWidthPerc,
+							iAppWndHeight*iterWindow->fHeightPerc);
 }
 
 void globaldraw()
@@ -296,7 +299,7 @@ static LRESULT CALLBACK winProcUser(HWND hwnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void WMClose()
 {
-	std::vector<OpenGLSubWindow*>::iterator iterWindow;
+	std::vector<OpenGLSubWindowWithGUI*>::iterator iterWindow;
 	for (iterWindow = liWindows.begin(); iterWindow != liWindows.end(); iterWindow++)
 		delete (*iterWindow);
 
