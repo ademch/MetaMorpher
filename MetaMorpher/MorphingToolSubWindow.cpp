@@ -15,7 +15,7 @@ extern GLFONT font;
 const int   _fFinalizationRadius = 9;
 const float const_fPointsDepth = 0.2;
 const float const_fPointsSize = 7;
-const float const_fLineWidth   = 1;
+const float const_fLineWidth   = 2;
 
 bool bDoubleClick = false;
 
