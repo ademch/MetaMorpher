@@ -18,12 +18,13 @@ void main(void)
 
 	int iMorphPointsCount = textureSize(tex1, 0).s;
 
-	// 1. At the first step find a weighted combination of !directional shifts!
+	// 1. At the first step we decide the translation direction vector as a rotating vector of unity length.
+    //    The direction is found as weighted combination of !directional shifts!
     //    making a single vector of full translation we believe in (consequently final destination point).
-	//    The distance to the pair only decides how much to believe in it and has no
-	//    meaning of how strong to travel, the travelling is full.
-	//    100% of votes are spread between each !directional shift!:
-	//    E.g. 0.1*Pair0 + 11*Pair1 + 100*Pair2 + 2*Pair3 => Total votes: 113.1 =>
+	//    The distance to the source point decides how much to believe in this contribution.
+	//    To make it a uity vector direction is normalized at the ned of the step.
+	//    I.e., 100% of votes are spread between each !directional shift!:
+	//    E.g. 1%*Pair0 + 11%*Pair1 + 55%*Pair2 + 2*Pair3 => Total votes: 113.1 =>
 	//    0.088% voted for full travel offered by Pair0, 9.7% for Pair1, 88% for Pair2, 1.7% for Pair3
 	float fTotalWeight = 0.0;
     vec2 vShift = vec2(0.0);

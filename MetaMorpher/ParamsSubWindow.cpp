@@ -15,6 +15,15 @@ ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
 	      OpenGLSubWindowWithGUI(iParentWidth, iParentHeight,
 								 fBottomLeftXperc, fBottomLeftYperc, fWidthPerc, fHeightPerc)
 {
+	fMorphRatio = 90;
+	SliderMorphRatio = new Slider<SL_INT>(" Ratio", 30,210, 0,100, &fMorphRatio, 7);
+	SliderMorphRatio->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
+	SliderMorphRatio->SetBoxWidth(200);
+	SliderMorphRatio->SetBoxSeparation(1);
+	SliderMorphRatio->fValueGranularity = 1;
+	SliderMorphRatio->fTickGranularity = 10;
+	liGUI_Elements.push_back(SliderMorphRatio);
+	
 	fMorphRadius = 80;
 	SliderMorphRadius = new Slider<SL_INT>(" Radius", 30,170, 0,500, &fMorphRadius, 7);
 	SliderMorphRadius->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);

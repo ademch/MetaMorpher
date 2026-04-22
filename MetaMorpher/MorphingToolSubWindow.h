@@ -42,8 +42,6 @@ public:
 
 	ParamsSubWindow* m_ParamsSubWindow;
 
-	float fMorphRatio;
-
 protected:
 	void UploadMorphingLines();
 
@@ -53,7 +51,6 @@ protected:
 	Button* buttonSource;
 	Button* buttonDestination;
 	Button* buttonMorphNow;
-	Slider<SL_INT>* SliderMorphRatio;
 
 	bool ResetView();
 

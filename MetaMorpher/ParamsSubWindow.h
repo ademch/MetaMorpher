@@ -73,6 +73,7 @@ public:
 
 	float fMorphPower;
 	float fMorphRadius;
+	float fMorphRatio;
 
 	bool PointsAreVisible();
 	bool ShowWireframe();
@@ -81,6 +82,7 @@ public:
 protected:
 
 private:
+	Slider<SL_INT>   *SliderMorphRatio;
 	Slider<SL_INT>   *SliderMorphRadius;
 	SliderCenterLine *SliderMorphSmoothness;
 	

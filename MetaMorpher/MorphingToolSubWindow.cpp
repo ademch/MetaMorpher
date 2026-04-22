@@ -74,15 +74,6 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 	buttonResetView->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::ResetView;
 	liGUI_Elements.push_back(buttonResetView);
 
-	fMorphRatio = 90;
-	SliderMorphRatio = new Slider<SL_INT>(" Ratio", -230,50, 0, 100, &fMorphRatio, 7);
-	SliderMorphRatio->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
-	SliderMorphRatio->SetBoxWidth(370);
-	SliderMorphRatio->SetBoxSeparation(10);
-	SliderMorphRatio->fValueGranularity = 1;
-	SliderMorphRatio->fTickGranularity = 10;
-	liGUI_Elements.push_back(SliderMorphRatio);
-
 	typeTexBankIter iter;
 	for (iter = texBank.bank.begin(); iter != texBank.bank.end(); ++iter)
 		comboBox->items.push_back( iter->first.c_str() );
