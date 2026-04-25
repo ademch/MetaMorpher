@@ -248,6 +248,9 @@
     <ClCompile Include="ImageSaveLoad.cpp">
       <Filter>Source Files\Main</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\!!adGUI\SubWindowWithGUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MetaMorpher.rc">

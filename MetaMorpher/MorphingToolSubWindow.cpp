@@ -42,8 +42,7 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 
 	buttonSource = new Button("Draw src", -230,10, 100, 6.3);
 	buttonSource->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
-	buttonSource->OnClickThis = this;
-	buttonSource->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::SourcePolylineClicked;
+	buttonSource->OnClick = [this]() { return SourcePolylineClicked(); };
 	liGUI_Elements.push_back(buttonSource);
 
 	arrow = new Arrow("", -120,10 + 8, 30, 6.3);
@@ -52,14 +51,12 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 
 	buttonDestination = new Button("Draw dst", -80,10, 100, 6.3);
 	buttonDestination->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
-	buttonDestination->OnClickThis = this;
-	buttonDestination->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::DestinationPolylineClicked;
+	buttonDestination->OnClick = [this]() { return DestinationPolylineClicked(); };
 	liGUI_Elements.push_back(buttonDestination);
 
 	buttonMorphNow = new Button("Morph now", 40,10, 100, 6.3);
 	buttonMorphNow->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
-	buttonMorphNow->OnClickThis = this;
-	buttonMorphNow->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::MorphNow;
+	buttonMorphNow->OnClick = [this]() { return MorphNow(); };
 	liGUI_Elements.push_back(buttonMorphNow);
 
 	comboBox = new ComboBox("Default", -180,10, 170, 6.3);
@@ -70,8 +67,7 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 
 	buttonResetView = new Button("Reset view", -180,-30, 100, 6); 
 	buttonResetView->SetAlignment(HALIGN_RIGHT, VALIGN_TOP);
-	buttonResetView->OnClickThis = this;
-	buttonResetView->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&MorphingToolSubWindow::ResetView;
+	buttonResetView->OnClick = [this]() { return ResetView(); };
 	liGUI_Elements.push_back(buttonResetView);
 
 	typeTexBankIter iter;

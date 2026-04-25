@@ -204,6 +204,7 @@
     <ClCompile Include="..\..\!!adGUI\label.cpp" />
     <ClCompile Include="..\..\!!adGUI\OnOffFlipSwitch.cpp" />
     <ClCompile Include="..\..\!!adGUI\SubWindow.cpp" />
+    <ClCompile Include="..\..\!!adGUI\SubWindowWithGUI.cpp" />
     <ClCompile Include="..\..\PS_SDK\libwebp-1.2.2\src\webp\webp_loader.cpp" />
     <ClCompile Include="ImageSaveLoad.cpp" />
     <ClCompile Include="MorphFBOprocessor.cpp" />

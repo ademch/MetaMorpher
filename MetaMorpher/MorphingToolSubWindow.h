@@ -59,9 +59,6 @@ protected:
 	Vec2 ptPrevPoint;
 
 private:
-	float m_fQuadPixW;
-	float m_fQuadPixH;
-
 	bool m_bIgnoreFalseInput;
 
 	bool bSrcCurveIsDone;

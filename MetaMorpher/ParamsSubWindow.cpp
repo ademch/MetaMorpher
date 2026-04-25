@@ -49,8 +49,7 @@ ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
 	OnOffFlipSwitch* onoffswitchShaders = new OnOffFlipSwitch("Shaders", 190,90, 6);
 	onoffswitchShaders->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
 	//onoffswitchShaders->bEnabled = false;
-	onoffswitchShaders->OnPreClickThis = this;
-	onoffswitchShaders->OnPreClick = (bool(__thiscall OpenGLSubWindow::*)(bool))&ParamsSubWindow::CompileShaders;
+	onoffswitchShaders->OnPreClick = [this](bool bON_Request) { return CompileShaders(bON_Request); };
 	liGUI_Elements.push_back(onoffswitchShaders);
 
 	onoffswitchShowPoints = new OnOffFlipSwitch("Points", 30,50, 6);
@@ -66,20 +65,17 @@ ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
 
 	buttonMorphNext = new Button("Apply", 30,-10, 120, 6.3);
 	buttonMorphNext->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
-	buttonMorphNext->OnClickThis = this;
-	buttonMorphNext->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&ParamsSubWindow::StartNextGeneration;
+	buttonMorphNext->OnClick = [this]() { return StartNextGeneration(); };
 	liGUI_Elements.push_back(buttonMorphNext);
 
 	buttonLoadImage = new Button("Load image...", 30,-110, 120, 6.3);
 	buttonLoadImage->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
-	buttonLoadImage->OnClickThis = this;
-	buttonLoadImage->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&ParamsSubWindow::LoadImageFromDisk;
+	buttonLoadImage->OnClick = [this]() { return LoadImageFromDisk(); };
 	liGUI_Elements.push_back(buttonLoadImage);
 
 	buttonSaveFrame = new Button("Save image...", 30,-140, 120, 6.3);
 	buttonSaveFrame->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
-	buttonSaveFrame->OnClickThis = this;
-	buttonSaveFrame->OnClick = (bool(__thiscall OpenGLSubWindow::*)())&ParamsSubWindow::SaveFrame;
+	buttonSaveFrame->OnClick = [this]() { return SaveFrame(); };
 	liGUI_Elements.push_back(buttonSaveFrame);
 
 	FPS* fpsElement = new FPS(200,-140, 6);
