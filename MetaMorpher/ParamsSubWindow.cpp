@@ -112,7 +112,11 @@ void ParamsSubWindow::PassiveMotionFunc(int x, int y)
 	if ((x > m_iBottomLeftX) && (x < m_iBottomLeftX + m_iWidth) &&
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
 	{
-		PassiveMotionFuncGUI(x, y);
+		bool bResult;
+		bResult = PassiveMotionFuncGUI(x, y);
+
+		if (!bResult)
+			glutSetCursor(GLUT_CURSOR_INHERIT);
 	}
 }
 
