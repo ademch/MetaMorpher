@@ -251,10 +251,17 @@ void MotionFunc(int x, int y)
 		iterWindow->MotionFunc(x, iAppWndHeight - y);
 }
 
+
+// Passive motion is special, global window has to care about all child windows
+// to make sure focus, cursor is updated correcly
 void PassiveMotionFunc(int x, int y)
 {
+	bool bResult = false;
 	for (auto iterWindow : liWindows)
-		iterWindow->PassiveMotionFunc(x, iAppWndHeight - y);
+		bResult |= iterWindow->PassiveMotionFunc(x, iAppWndHeight - y);
+
+	if (!bResult)
+		glutSetCursor(GLUT_CURSOR_INHERIT);
 }
 
 void MouseFunc(int button, int state, int x, int y)

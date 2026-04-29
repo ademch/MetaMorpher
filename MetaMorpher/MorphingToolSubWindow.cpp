@@ -213,7 +213,7 @@ void MorphingToolSubWindow::UploadMorphingLines()
 }
 
 
-void MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
+bool MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 {
 	Vec3d v3DCoords;
 	float fJitter = 5;
@@ -229,22 +229,24 @@ void MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 
 			gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
 
-			bool bHit = false;
 			for (auto point : liDestination)
 			{
 				if (VecLengthSqr(v3DCoords - Vecc3d(point.X, point.Y, const_fPointsDepth)) < sqr(fJitter/fUserScale))
 				{
 					glutSetCursor(GLUT_CURSOR_TOP_SIDE);
-					bHit = true;
-					break;
+					return true;
 				}
 			}
-
-			if (!bHit) glutSetCursor(GLUT_CURSOR_INHERIT);
 		}
-		
-		PassiveMotionFuncGUI(x, y);
+		else if ((stateCurrent == STATE_SOURCE_POINT_INPUT)   || (stateCurrent == STATE_DESTINATION_POINT_INPUT) ||
+			     (stateCurrent == STATE_SOURCE_DRAWING_INPUT) || (stateCurrent == STATE_DESTINATION_DRAWING_INPUT))
+		{
+			glutSetCursor(GLUT_CURSOR_TOP_SIDE);
+			return true;
+		}
 	}
+
+	return PassiveMotionFuncGUI(x, y);
 }
 
 // Mouse button callback

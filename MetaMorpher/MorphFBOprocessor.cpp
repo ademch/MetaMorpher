@@ -10,7 +10,7 @@ extern GLSL_Pipeline glsl_pipeline;
 extern TextureBank texBank;
 
 MorphFBOprocessor::MorphFBOprocessor(int iBottomLeftX, int iBottomLeftY, int iWidth, int iHeight) :
-	                                 OpenGLSubWindow(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
+	               OpenGLSubWindow(iBottomLeftX, iBottomLeftY, iWidth, iHeight)
 {
 	bRenderGUIdecoration  = false;
 	bSceneRotationAllowed = false;

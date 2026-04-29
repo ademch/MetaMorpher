@@ -105,19 +105,11 @@ void ParamsSubWindow::Render()
 	RenderGUI();
 }
 
-void ParamsSubWindow::PassiveMotionFunc(int x, int y)
+bool ParamsSubWindow::PassiveMotionFunc(int x, int y)
 {
 	OpenGLSubWindow::PassiveMotionFunc(x, y);
 
-	if ((x > m_iBottomLeftX) && (x < m_iBottomLeftX + m_iWidth) &&
-		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
-	{
-		bool bResult;
-		bResult = PassiveMotionFuncGUI(x, y);
-
-		if (!bResult)
-			glutSetCursor(GLUT_CURSOR_INHERIT);
-	}
+	return PassiveMotionFuncGUI(x, y);
 }
 
 void ParamsSubWindow::MouseFunc(int button, int state, int x, int y)

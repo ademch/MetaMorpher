@@ -59,7 +59,7 @@ public:
 
 	virtual	void Render();
 
-	virtual void PassiveMotionFunc(int x, int y);
+	virtual bool PassiveMotionFunc(int x, int y);
 	virtual void MouseFunc(int button, int state, int x, int y);
 	virtual void MotionFunc(int x, int y);
 	

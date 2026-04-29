@@ -15,7 +15,6 @@ int iAppWndWidth = 1200;
 int iAppWndHeight = 800;
 
 
-// объявления прототипов
 void ReshapeFunc(GLsizei w, GLsizei h);
 void globaldraw();
 void keyboard(unsigned char, int, int);
