@@ -24,10 +24,10 @@ public:
 						  float fWidthPerc, float fHeightPerc);
 	~MorphingToolSubWindow();
 
-	virtual	void Render();
+	virtual	void Draw();
 
 	virtual bool PassiveMotionFunc(int x, int y);
-	virtual void MouseFunc(int button, int state, int x, int y);
+	virtual bool MouseFunc(int button, int state, int x, int y);
 	virtual void MotionFunc(int x, int y);
 	virtual bool KeyboardFunc(unsigned char key, int x, int y);
 
@@ -59,7 +59,7 @@ protected:
 	Vec2 ptPrevPoint;
 
 private:
-	bool m_bIgnoreFalseInput;
+	bool m_bMouseDrawingInProgress;
 
 	bool bSrcCurveIsDone;
 	bool bDstCurveIsDone;

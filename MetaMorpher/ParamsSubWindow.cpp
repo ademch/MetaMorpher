@@ -96,37 +96,6 @@ ParamsSubWindow::~ParamsSubWindow()
 }
 
 
-void ParamsSubWindow::Render()
-{
-	OpenGLSubWindow::Render();
-
-	glDisable(GL_LIGHTING);
-
-	RenderGUI();
-}
-
-bool ParamsSubWindow::PassiveMotionFunc(int x, int y)
-{
-	OpenGLSubWindow::PassiveMotionFunc(x, y);
-
-	return PassiveMotionFuncGUI(x, y);
-}
-
-void ParamsSubWindow::MouseFunc(int button, int state, int x, int y)
-{
-	OpenGLSubWindow::MouseFunc(button, state, x, y);
-
-	if (MouseFuncGUI(button, state, x, y)) return;
-}
-
-
-void ParamsSubWindow::MotionFunc(int x, int y)
-{
-	OpenGLSubWindow::MotionFunc(x, y);
-
-	MotionFuncGUI(x, y);
-}
-
 bool ParamsSubWindow::LoadImageFromDisk()
 {
 	//get the HWND

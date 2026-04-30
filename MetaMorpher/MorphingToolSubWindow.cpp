@@ -33,12 +33,13 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 											  fBottomLeftXperc, fBottomLeftYperc, fWidthPerc, fHeightPerc)
 {
 	stateCurrent = STATE_IDLE;
+
 	bSrcCurveIsDone = false;
 	bDstCurveIsDone = false;
 
 	m_ParamsSubWindow = NULL;
 
-	m_bIgnoreFalseInput = false;
+	m_bMouseDrawingInProgress = false;
 
 	buttonSource = new Button("Draw src", -230,10, 100, 6.3);
 	buttonSource->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
@@ -88,9 +89,9 @@ MorphingToolSubWindow::~MorphingToolSubWindow()
 		delete (*iterElement);
 }
 
-void MorphingToolSubWindow::Render()
+void MorphingToolSubWindow::Draw()
 {
-	OpenGLSubWindow::Render();
+	OpenGLSubWindowWithGUI::Draw();
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
@@ -178,9 +179,6 @@ void MorphingToolSubWindow::Render()
 		buttonDestination->bEnabled = true;
 	}
 
-	///////
-
-	RenderGUI();
 }
 
 
@@ -218,7 +216,7 @@ bool MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 	Vec3d v3DCoords;
 	float fJitter = 5;
 
-	OpenGLSubWindow::PassiveMotionFunc(x, y);
+	if (OpenGLSubWindowWithGUI::PassiveMotionFunc(x, y)) return true;
 
 	if ((x > m_iBottomLeftX) && (x < m_iBottomLeftX + m_iWidth) &&
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
@@ -246,38 +244,28 @@ bool MorphingToolSubWindow::PassiveMotionFunc(int x, int y)
 		}
 	}
 
-	return PassiveMotionFuncGUI(x, y);
+	return false;
 }
 
 // Mouse button callback
-void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
+bool MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 {
 	float fJitter       = 5;
 	float fJitterLine   = 12;
 	float fBlindZoneRad = 20;
 
-	OpenGLSubWindow::MouseFunc(button, state, x, y);
+	if (OpenGLSubWindowWithGUI::MouseFunc(button, state, x, y)) return true;
 
 	if ((x > m_iBottomLeftX) && (x < m_iBottomLeftX + m_iWidth) &&
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
 	{
-		// Process GUI first
-		if (MouseFuncGUI(button, state, x,y)) return;
-
-
-		// Process local logic
-
-		// MouseMove does not have a way to get button state,
-		// we need to react only on left button
-		if ((button != GLUT_LEFT_BUTTON) && (state == GLUT_DOWN)) m_bIgnoreFalseInput = true;
-
 
 		SetupGraphicsPipeline();
 
 		Vec3d v3DCoords;
 		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
 
-		// any click down from idle starts the drawing mode first
+		// We enter here if drawing mode has been initiated from outside and that is our first mouse click
 		if ( ((stateCurrent == STATE_SOURCE_DRAWING_INPUT) || (stateCurrent == STATE_DESTINATION_DRAWING_INPUT)) &&
 			 (button == GLUT_LEFT_BUTTON) && (state == GLUT_DOWN))
 		{
@@ -286,8 +274,12 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 			else if (stateCurrent == STATE_DESTINATION_DRAWING_INPUT)
 				liDestination.push_back(Vecc2(v3DCoords.X, v3DCoords.Y));
 
-			glutSetCursor(GLUT_CURSOR_TOP_SIDE);
 			ptPrevPoint = Vecc2(x, y);
+
+			// MouseMove does not have a way to get button state, we signal the drawing has started
+			m_bMouseDrawingInProgress = true;
+
+			return true;
 		}
 		// if button has been released in drawing mode there are two options:
 		// * released at the same !starting! point- switch to point input mode
@@ -297,10 +289,22 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 		{
 			if ((stateCurrent == STATE_SOURCE_DRAWING_INPUT) &&
 				(liSource.size() == 1) && (PointDist(Vecc2(x, y), ptPrevPoint) < 5))
+			{
 				stateCurrent = STATE_SOURCE_POINT_INPUT;
+
+				m_bMouseDrawingInProgress = false;
+
+				return true;
+			}
 			else if ((stateCurrent == STATE_DESTINATION_DRAWING_INPUT) &&
 				(liDestination.size() == 1) && (PointDist(Vecc2(x, y), ptPrevPoint) < 5))
+			{
 				stateCurrent = STATE_DESTINATION_POINT_INPUT;
+
+				m_bMouseDrawingInProgress = false;
+
+				return true;
+			}
 			else
 			{
 				if (stateCurrent == STATE_SOURCE_DRAWING_INPUT)
@@ -309,6 +313,10 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 					bDstCurveIsDone = true;
 
 				stateCurrent = STATE_IDLE;
+
+				m_bMouseDrawingInProgress = false;
+
+				return true;
 			}
 		}
 		// if button has been pressed in point mode there are two options:
@@ -325,6 +333,8 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 					bDstCurveIsDone = true;
 
 				stateCurrent = STATE_IDLE;
+
+				return true;
 			}
 			else
 			{
@@ -334,6 +344,8 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 					liDestination.push_back(Vecc2(v3DCoords.X, v3DCoords.Y));
 
 				ptPrevPoint = Vecc2(x, y);
+
+				return true;
 			}
 		}
 		// 1. We enter here for recording of initial position of a point for drag
@@ -350,7 +362,7 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 						stateCurrent = STATE_POINT_DRAG;
 						m_ptrDraggedPoint = &point;
 
-						return;
+						return true;
 					}
 				}
 			}
@@ -380,12 +392,14 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 								}
 
 								bDoubleClick = false;
-								return;
+
+								return true;
 							}
 							else {
 								bDoubleClick = true;
 								glutTimerFunc(250, DoubleClickTimer, 0);
-								return;
+
+								return true;
 							}
 						}
 					}
@@ -417,65 +431,51 @@ void MorphingToolSubWindow::MouseFunc(int button, int state, int x, int y)
 								}
 
 								bDoubleClick = false;
-								return;
+
+								return true;
 							}
 							else {
 								bDoubleClick = true;
 								glutTimerFunc(250, DoubleClickTimer, 0);
-								return;
+
+								return true;
 							}
 						}
 					}
 				}
 			}
 		}
+		// Left mouse button has been released being in drag mode
+		else if ((button == GLUT_LEFT_BUTTON) && (state == GLUT_UP) && (stateCurrent == STATE_POINT_DRAG))
+		{
+			stateCurrent = STATE_IDLE;
 
+			return true;
+		}
 	}
 
-	if ((button != GLUT_LEFT_BUTTON) && (state == GLUT_UP))
-		m_bIgnoreFalseInput = false;
-	if ((button == GLUT_LEFT_BUTTON) && (state == GLUT_UP) && (stateCurrent == STATE_POINT_DRAG))
-		stateCurrent = STATE_IDLE;
+	return false;
 }
 
 
 void MorphingToolSubWindow::MotionFunc(int x, int y)
 {
-	OpenGLSubWindow::MotionFunc(x, y);
+	OpenGLSubWindowWithGUI::MotionFunc(x, y);
 
 	if ((x > m_iBottomLeftX) && (x < m_iBottomLeftX + m_iWidth) &&
 		(y > m_iBottomLeftY) && (y < m_iBottomLeftY + m_iHeight))
 	{
-		// Process GUI first
-		MotionFuncGUI(x, y);
-
-		// Process local logic
-
-		if (m_bIgnoreFalseInput) return;
 
 		SetupGraphicsPipeline();
 
 		Vec3d v3DCoords;
 		gluUnProjectFriendly(x, y, 0, v3DCoords.X, v3DCoords.Y, v3DCoords.Z);
 
-		if ((stateCurrent == STATE_SOURCE_DRAWING_INPUT) || (stateCurrent == STATE_DESTINATION_DRAWING_INPUT))
+		if (((stateCurrent == STATE_SOURCE_DRAWING_INPUT) || (stateCurrent == STATE_DESTINATION_DRAWING_INPUT)) && m_bMouseDrawingInProgress)
 		{
-			Vec2 vDir = Vecc2(x, y) - ptPrevPoint;
-			float fLen = VecLength(vDir);
 			float fRadius = 30;
-			if (fLen > fRadius)
+			if (VecLength(Vecc2(x, y) - ptPrevPoint) > fRadius)
 			{
-				//Vec2 ptNew2d = ptPrevPoint + (1.0f - fRadius / fLen)*vDir;
-
-				//Vec3d v3DNew;
-				//gluUnProjectFriendly(ptNew2d.X, ptNew2d.Y, 0, v3DNew.X, v3DNew.Y, v3DNew.Z);
-
-				//if (PointDist(ptPrevPoint, Vecc2(round(ptNew2d.X), round(ptNew2d.Y))) > 5)
-				//{
-				//	liSource.push_back(Vecc2(v3DNew.X, v3DNew.Y));
-				//	ptPrevPoint = Vecc2(round(ptNew2d.X), round(ptNew2d.Y));
-				//}
-
 				if (stateCurrent == STATE_SOURCE_DRAWING_INPUT)
 					liSource.push_back(Vecc2(v3DCoords.X, v3DCoords.Y));
 				else if (stateCurrent == STATE_DESTINATION_DRAWING_INPUT)
@@ -556,6 +556,8 @@ bool MorphingToolSubWindow::SourcePolylineClicked()
 	if (stateCurrent == STATE_IDLE)
 	{
 		stateCurrent = STATE_SOURCE_DRAWING_INPUT;
+		glutSetCursor(GLUT_CURSOR_TOP_SIDE);
+
 		buttonSource->bEnabled = false;
 		buttonSource->_text = "Drawing";
 
@@ -579,6 +581,8 @@ bool MorphingToolSubWindow::DestinationPolylineClicked()
 	{
 		stateCurrent = STATE_DESTINATION_DRAWING_INPUT;
 		buttonDestination->_text = "Drawing";
+
+		glutSetCursor(GLUT_CURSOR_TOP_SIDE);
 
 		// nice touch
 		m_ParamsSubWindow->MakePointsVisible();
