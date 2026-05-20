@@ -97,7 +97,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>user32.lib;Comdlg32.lib;jpeg.lib;libwebpdecoder_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>user32.lib;Comdlg32.lib;jpeg.lib;libwebpdecoder_debug.lib;gdi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\PS_SDK\libwebp-1.2.2\output\debug-static\x86\lib;..\..\!!adGlobals\JPG\jpeg-9e\Release\Win32;..\..\!!adGlobals\glut</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -193,6 +193,7 @@
     <ClCompile Include="..\..\!!adGlobals\JPG\jpeg-9e\jdatasrc.cpp" />
     <ClCompile Include="..\..\!!adGlobals\JPG\JPEG_library.cpp" />
     <ClCompile Include="..\..\!!adGlobals\PNG\lodepng.cpp" />
+    <ClCompile Include="..\..\!!adGlobals\TextureDescriptor.cpp" />
     <ClCompile Include="..\..\!!adGlobals\trackball.cpp" />
     <ClCompile Include="..\..\!!adGlobals\vector_math.cpp" />
     <ClCompile Include="..\..\!!adGlobals\wdir.cpp" />

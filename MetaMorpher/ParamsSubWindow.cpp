@@ -1,19 +1,22 @@
 #include "stdafx.h"
 #include "ParamsSubWindow.h"
-#include "../../!!adGlobals/adOpenGLUtilities.h"
 #include "../../!!adGUI/fps.h"
 #include "GLSL_Pipeline.h"
-#include "../../!!adExtensions/extensions.h"
 
 
 extern GLSL_Pipeline glsl_pipeline;
-extern TextureBank texBank;
+
 
 ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
 								 float fBottomLeftXperc, float fBottomLeftYperc,
 								 float fWidthPerc, float fHeightPerc) :
-	      OpenGLSubWindowWithGUI(iParentWidth, iParentHeight,
-								 fBottomLeftXperc, fBottomLeftYperc, fWidthPerc, fHeightPerc)
+				 OpenGLSubWindowWithGUI(iParentWidth, iParentHeight,
+										fBottomLeftXperc, fBottomLeftYperc, fWidthPerc, fHeightPerc)
+{
+	PopulateGUI();
+}
+
+void ParamsSubWindow::PopulateGUI()
 {
 	fMorphRatio = 90;
 	SliderMorphRatio = new Slider<SL_INT>(" Ratio", 30,210, 0,100, &fMorphRatio, 7);
@@ -23,7 +26,7 @@ ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
 	SliderMorphRatio->fValueGranularity = 1;
 	SliderMorphRatio->fTickGranularity = 10;
 	liGUI_Elements.push_back(SliderMorphRatio);
-	
+
 	fMorphRadius = 80;
 	SliderMorphRadius = new Slider<SL_INT>(" Radius", 30,170, 0,500, &fMorphRadius, 7);
 	SliderMorphRadius->SetAlignment(HALIGN_LEFT, VALIGN_CENTER);
@@ -83,18 +86,8 @@ ParamsSubWindow::ParamsSubWindow(int iParentWidth, int iParentHeight,
 	liGUI_Elements.push_back(fpsElement);
 
 	// Enable shaders
-
 	onoffswitchShaders->SetOnOff(true, true);
-
 }
-
-ParamsSubWindow::~ParamsSubWindow()
-{
-	std::vector<GUI_Element*>::iterator iterElement;
-	for (iterElement = liGUI_Elements.begin(); iterElement != liGUI_Elements.end(); iterElement++)
-		delete (*iterElement);
-}
-
 
 bool ParamsSubWindow::LoadImageFromDisk()
 {

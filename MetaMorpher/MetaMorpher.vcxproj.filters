@@ -251,6 +251,9 @@
     <ClCompile Include="..\..\!!adGUI\SubWindowWithGUI.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\!!adGlobals\TextureDescriptor.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MetaMorpher.rc">

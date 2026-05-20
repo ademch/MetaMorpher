@@ -55,7 +55,7 @@ public:
 	ParamsSubWindow(int iParentWidth, int iParentHeight,
 					float fBottomLeftXperc, float fBottomLeftYperc,
 					float fWidthPerc, float fHeightPerc);
-	~ParamsSubWindow();
+	~ParamsSubWindow() {}
 
 	bool LoadImageFromDisk();
 	bool SaveFrame();
@@ -74,6 +74,8 @@ public:
 	void MakePointsVisible();
 
 protected:
+
+	void PopulateGUI() override;
 
 private:
 	Slider<SL_INT>   *SliderMorphRatio;

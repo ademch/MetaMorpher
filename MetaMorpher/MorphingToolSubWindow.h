@@ -22,7 +22,7 @@ public:
 	MorphingToolSubWindow(int iParentWidth, int iParentHeight,
 						  float fBottomLeftXperc, float fBottomLeftYperc,
 						  float fWidthPerc, float fHeightPerc);
-	~MorphingToolSubWindow();
+	~MorphingToolSubWindow() {}
 
 	virtual	void Draw();
 
@@ -43,6 +43,9 @@ public:
 	ParamsSubWindow* m_ParamsSubWindow;
 
 protected:
+
+	void PopulateGUI() override;
+
 	void UploadMorphingLines();
 
 	ComboBox* comboBox;

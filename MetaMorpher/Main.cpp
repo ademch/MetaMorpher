@@ -98,9 +98,7 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 	ParamsSubWindow* windowParams;
 	windowParams = new ParamsSubWindow(iAppWndWidth,iAppWndHeight, 0.72,0.02, 0.27,0.96);
 	sprintf(windowParams->m_strCaption, "%s", "Params");
-	windowParams->bSceneRotationAllowed = false;
-	windowParams->bSceneDragAllowed = false;
-	windowParams->bSceneZoomAllowed = false;
+	windowParams->SetFlags(ROTATION_ALLOWED_FALSE | DRAG_ALLOWED_FALSE | ZOOM_ALLOWED_FALSE);
 	liWindows.push_back(windowParams);
 
 	// register mutual pointers

@@ -41,6 +41,13 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 
 	m_bMouseDrawingInProgress = false;
 
+	ptPrevPoint = Vecc2();
+
+	PopulateGUI();
+}
+
+void MorphingToolSubWindow::PopulateGUI()
+{
 	buttonSource = new Button("Draw src", -230,10, 100, 6.3);
 	buttonSource->SetAlignment(HALIGN_CENTER, VALIGN_BOTTOM);
 	buttonSource->OnClick = [this]() { return SourcePolylineClicked(); };
@@ -77,17 +84,8 @@ MorphingToolSubWindow::MorphingToolSubWindow(int iParentWidth, int iParentHeight
 
 	comboBox->SetSelected(TEXTURE_MORPHED_IMAGE);
 
-	ptPrevPoint = Vecc2();
-
 }
 
-
-MorphingToolSubWindow::~MorphingToolSubWindow()
-{
-	std::vector<GUI_Element*>::iterator iterElement;
-	for (iterElement = liGUI_Elements.begin(); iterElement != liGUI_Elements.end(); iterElement++)
-		delete (*iterElement);
-}
 
 void MorphingToolSubWindow::Draw()
 {
